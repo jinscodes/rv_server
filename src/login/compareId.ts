@@ -1,7 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
+import { UserDatas } from "./../../types/login.d";
 
 interface Props {
-  userDatas: ({ id: string; pw: string } | undefined)[];
+  userDatas: (UserDatas | undefined)[];
   res: ServerResponse<IncomingMessage>;
   req: IncomingMessage;
 }
@@ -15,8 +16,9 @@ export const compareId = ({ userDatas, res, req }: Props) => {
 
   req.on("end", async () => {
     const bodyJson = JSON.parse(body);
-    console.log(bodyJson);
+    const isMatched = userDatas.map((el) => el?.id === bodyJson.id);
+    // console.log("userDatas: ", userDatas); // from notion db
+    // console.log("bodyJson: ", bodyJson); // from client
+    console.log("isMatched: ", isMatched);
   });
-
-  return "";
 };
