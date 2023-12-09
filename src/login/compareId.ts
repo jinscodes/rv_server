@@ -1,24 +1,35 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { UserDatas } from "./../../types/login.d";
+import { Request, Response } from "express";
+import { usersDB } from "./../../types/login.d";
+import { jwt } from "./jwt";
 
 interface Props {
-  userDatas: (UserDatas | undefined)[];
-  res: ServerResponse<IncomingMessage>;
-  req: IncomingMessage;
+  usersDB: (usersDB | undefined)[];
+  res: Response;
+  req: Request;
 }
 
-export const compareId = ({ userDatas, res, req }: Props) => {
-  // console.log("compareId:", userDatas);
-  let body: string = "";
-  req.on("data", (chunk) => {
-    body += chunk;
-  });
+export const compareId = ({ usersDB, res, req }: Props) => {
+  try {
+    const userClinet: usersDB = req.body;
 
-  req.on("end", async () => {
-    const bodyJson = JSON.parse(body);
-    const isMatched = userDatas.map((el) => el?.id === bodyJson.id);
-    // console.log("userDatas: ", userDatas); // from notion db
-    // console.log("bodyJson: ", bodyJson); // from client
-    console.log("isMatched: ", isMatched);
-  });
+    console.log(userClinet);
+
+    // login validation
+    const isMatched = usersDB.filter(
+      (user) => user?.id === userClinet.id && user.pw === userClinet.pw
+    );
+    // publish token
+    if (isMatched.length === 1) {
+      // convert object to json
+      const jwtJson = JSON.parse(JSON.stringify(isMatched[0]));
+      // create jwt token
+      const jwtToken = jwt({ jwtJson });
+      res.status(200).json(jwtToken);
+    } else {
+      res.status(401).json({ error: "Unauthorized" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };

@@ -7,6 +7,8 @@ import {
 
 const app: Application = express();
 
+app.use(express.json());
+
 const port: number = 8080;
 
 // signup
