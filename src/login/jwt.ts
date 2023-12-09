@@ -1,13 +1,12 @@
 import crypto from "crypto";
 
 interface Props {
-  header: JSON;
-  payload: JSON;
+  jwtJson: JSON;
 }
 
-export const jwt = ({ header, payload }: Props) => {
-  const encodedHeader = base64(header);
-  const encodedPayload = base64(payload);
+export const jwt = ({ jwtJson }: Props) => {
+  const encodedHeader = base64(jwtJson);
+  const encodedPayload = base64(jwtJson);
   const signiture = crypto
     .createHmac("sha256", "secret_key")
     .update(`${encodedHeader}.${encodedPayload}`)

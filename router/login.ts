@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { compareId } from "../src/login/compareId";
 import { getUserDataFromDB } from "../src/login/getUserDataFromDB";
 import { NotionKeys } from "../src/notionKeys";
@@ -17,9 +17,10 @@ if (!notionDBUser || !notionDBVWUI || !notionDBVoca || !notionSecret) {
   throw Error("Must define NOTION_SECRET and NOTION_DATABASE_ID in env");
 }
 
-router.post("/", async (req, res, next) => {
-  const userDatas = await getUserDataFromDB();
-  compareId({ userDatas, req, res });
+router.post("/", async (req: Request, res: Response, next) => {
+  const usersDB = await getUserDataFromDB();
+
+  compareId({ usersDB, req, res });
 });
 
 router.get("/", (req, res) => {

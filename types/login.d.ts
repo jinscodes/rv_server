@@ -1,4 +1,4 @@
-export type UserDatas = {
+export type usersDB = {
   id: string;
   pw: string;
 };
