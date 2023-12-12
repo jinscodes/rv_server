@@ -1,4 +1,6 @@
+import bodyParser from "body-parser";
 import express, { Application } from "express";
+
 import {
   default as loginRouter,
   default as registVocaRouter,
@@ -7,7 +9,14 @@ import {
 
 const app: Application = express();
 
-app.use(express.json());
+app.use(bodyParser.json());
+
+app.use((_req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+
+  next();
+});
 
 const port: number = 8080;
 

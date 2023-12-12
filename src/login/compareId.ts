@@ -12,8 +12,6 @@ export const compareId = ({ usersDB, res, req }: Props) => {
   try {
     const userClinet: usersDB = req.body;
 
-    console.log(userClinet);
-
     // login validation
     const isMatched = usersDB.filter(
       (user) => user?.id === userClinet.id && user.pw === userClinet.pw
