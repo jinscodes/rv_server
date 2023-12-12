@@ -3,11 +3,6 @@ import { compareId } from "../src/login/compareId";
 import { getUserDataFromDB } from "../src/login/getUserDataFromDB";
 import { NotionKeys } from "../src/notionKeys";
 
-interface userInfo {
-  id: string;
-  pw: string;
-}
-
 const router = express.Router();
 
 const notionKeys = new NotionKeys();
@@ -18,6 +13,7 @@ if (!notionDBUser || !notionDBVWUI || !notionDBVoca || !notionSecret) {
 }
 
 router.post("/", async (req: Request, res: Response, next) => {
+  console.log(req.body);
   const usersDB = await getUserDataFromDB();
 
   compareId({ usersDB, req, res });
