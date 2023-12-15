@@ -12,6 +12,8 @@ if (!notionDBUser || !notionDBVWUI || !notionDBVoca || !notionSecret) {
   throw Error("Must define NOTION_SECRET and NOTION_DATABASE_ID in env");
 }
 
+console.log("testetsetestesrt");
+
 router.post("/", async (req: Request, res: Response, next) => {
   console.log(req.body);
   const usersDB = await getUserDataFromDB();
