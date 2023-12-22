@@ -22,7 +22,7 @@ export const compareId = ({ usersDB, res, req }: Props) => {
       const jwtJson = JSON.parse(JSON.stringify(isMatched[0]));
       // create jwt token
       const jwtToken = jwt({ jwtJson });
-      res.status(200).json(jwtToken);
+      res.status(200).json({ jwtToken: jwtToken, userId: userClinet.id });
     } else {
       res.status(401).json({ error: "Unauthorized" });
     }

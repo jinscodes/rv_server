@@ -1,9 +1,11 @@
-import express from "express";
+import express, { Request, Response } from "express";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.status(201).send("signup");
+router.post("/", async (req: Request, res: Response, next) => {
+  const id = req.body.id;
+  const pw = req.body.pw;
+  console.log(id, pw);
 });
 
 export default router;
