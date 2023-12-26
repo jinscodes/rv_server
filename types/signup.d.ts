@@ -11,3 +11,7 @@ export type SignupValues = {
   id: string;
   pw: string;
 };
+
+export type usersIdDB = {
+  id: string;
+};
