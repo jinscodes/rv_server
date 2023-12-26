@@ -4,8 +4,8 @@ import express, { Application } from "express";
 import {
   default as loginRouter,
   default as registVocaRouter,
-  default as signupRouter,
 } from "../router/login";
+import signupRouter from "../router/signup";
 
 const app: Application = express();
 
