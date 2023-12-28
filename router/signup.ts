@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import { getUserDataFromDB } from "../src/login/getUserDataFromDB";
 import { NotionKeys } from "../src/notionKeys";
 import { compareId } from "../src/signup/compareId";
+import { convertDate } from "../src/signup/convertDate";
 import { SignupValues } from "./../types/signup.d";
 
 const router = express.Router();
@@ -18,6 +19,7 @@ const notion = new Client({
   auth: notionSecret,
 });
 
+// signup
 router.post("/", async (req: Request, res: Response, next) => {
   const body: SignupValues = req.body;
   const lastname = body.lastname && body.lastname;
@@ -25,15 +27,77 @@ router.post("/", async (req: Request, res: Response, next) => {
   const birth = body.birth;
   const gender = body.gender;
   const email = body.email;
-  const id = body.id;
-  const pw = body.pw;
-  console.log(body);
+  const id = body.id.id;
+  const pw = body.id.pw;
 
-  // await notion.pages.create({
-  //   parent: {
-  //     database_id: notionDBUser,
-  //   },
-  // });
+  convertDate({ date: birth });
+
+  await notion.pages.create({
+    parent: {
+      database_id: notionDBUser,
+    },
+    properties: {
+      firstname: {
+        rich_text: [
+          {
+            text: {
+              content: firstname,
+            },
+          },
+        ],
+      },
+      lastname: {
+        rich_text: [
+          {
+            text: {
+              content: lastname || "",
+            },
+          },
+        ],
+      },
+      birth: {
+        date: {
+          start: "1999-02-15",
+        },
+      },
+      gender: {
+        rich_text: [
+          {
+            text: {
+              content: gender,
+            },
+          },
+        ],
+      },
+      email: {
+        rich_text: [
+          {
+            text: {
+              content: email,
+            },
+          },
+        ],
+      },
+      id: {
+        rich_text: [
+          {
+            text: {
+              content: id,
+            },
+          },
+        ],
+      },
+      pw: {
+        rich_text: [
+          {
+            text: {
+              content: pw,
+            },
+          },
+        ],
+      },
+    },
+  });
 });
 
 // check id & pw
