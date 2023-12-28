@@ -30,8 +30,6 @@ router.post("/", async (req: Request, res: Response, next) => {
   const id = body.id.id;
   const pw = body.id.pw;
 
-  convertDate({ date: birth });
-
   await notion.pages.create({
     parent: {
       database_id: notionDBUser,
@@ -57,7 +55,7 @@ router.post("/", async (req: Request, res: Response, next) => {
       },
       birth: {
         date: {
-          start: "1999-02-15",
+          start: convertDate({ date: birth }),
         },
       },
       gender: {
@@ -98,13 +96,15 @@ router.post("/", async (req: Request, res: Response, next) => {
       },
     },
   });
+
+  res.status(200).json({ userId: req.body.id, process: "Done" });
 });
 
 // check id & pw
 router.post("/id", async (req: Request, res: Response, next) => {
   const usersDB = await getUserDataFromDB();
   const checkId = compareId({ usersDB, req, res });
-  console.log(checkId);
+
   if (checkId === "possible") {
     res.status(200).json({ userId: req.body.id, checking: "possible" });
   } else {
