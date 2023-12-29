@@ -47,5 +47,5 @@ export const convertDate = ({ date }: Props) => {
       break;
   }
 
-  return `${year}-${convertedMonth}-${day}`;
+  return `${year}-${convertedMonth}-${day < 10 ? `0${day}` : day}`;
 };
