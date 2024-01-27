@@ -31,7 +31,7 @@ app.use("/regist-voca", registVocaRouter);
 
 // home (later, it'll be changed)
 app.get("/", (req, res) => {
-  res.sendStatus(200);
+  res.sendStatus(200).json({ msg: "success!!!" });
 });
 
 // error
