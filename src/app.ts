@@ -34,6 +34,32 @@ app.get("/", (req, res) => {
   res.sendStatus(200).json({ msg: "success!!!" });
 });
 
+app.get("/testRoutine", (req, res) => {
+  res.json({
+    routines: [
+      "Mon Routine",
+      "Tue Routine",
+      "Wed Routine",
+      "Thur Routine",
+      "Fri Routine",
+    ],
+  });
+});
+
+app.get("/test", (req, res) => {
+  res.json({
+    id: "testId",
+    title: "testTitle",
+    routines: [
+      "Mon Routine",
+      "Tue Routine",
+      "Wed Routine",
+      "Thur Routine",
+      "Fri Routine",
+    ],
+  });
+});
+
 // error
 app.use((req, res) => {
   res.status(500).json({ msg: "Something went wrong 🥲" });
